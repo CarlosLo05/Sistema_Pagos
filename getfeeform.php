@@ -1,6 +1,7 @@
 <?php
 include("php/dbconnect.php");
-
+$joindate = date('Y-m-d');
+$datePicker = date("Y-m-d", strtotime($joindate));
 if(isset($_POST['req']) && $_POST['req']=='1') 
 {
 
@@ -14,16 +15,16 @@ if($q->num_rows>0)
 $res = $q->fetch_assoc();
 echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method="post">
   <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Nombre:</label>
+    <label class="control-label col-sm-2" for="email">Nombre y Apellido:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" disabled  value="'.$res['sname'].'" >
+      <input type="text" class="form-label" disabled  value="'.$res['sname'].'" >
     </div>
   </div>
   
   <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Cedula:</label>
+    <label class="control-label col-sm-2" for="email">Cédula:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" disabled  value="'.$res['contact'].'" />
+      <input type="text" class="form-label" disabled  value="'.$res['contact'].'" />
     </div>
   </div>
   
@@ -31,7 +32,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Pago Total:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="totalfee" id="totalfee"   value="'.$res['fees'].'" disabled />
+      <input type="text" class="form-label" name="totalfee" id="totalfee"   value="'.$res['fees'].'" disabled />
     </div>
   </div>
   
@@ -39,7 +40,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Por Pagar:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="balance"  id="balance" value="'.$res['balance'].'" disabled />
+      <input type="text" class="form-label" name="balance"  id="balance" value="'.$res['balance'].'" disabled />
 	  <input type="hidden" value="'.$res['id'].'" name="sid">
     </div>
   </div>
@@ -48,7 +49,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Cantidad a Pagar:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="paid"  id="paid"  />
+      <input type="text" class="form-label" name="paid"  id="paid"  />
     </div>
   </div>
   
@@ -56,7 +57,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
     <label class="control-label col-sm-2" for="email">Fecha:</label>
     <div class="col-sm-10">
 	
-      <input type="text" class="form-control" name="submitdate"  id="submitdate" style="background:#fff;"  readonly />
+      <input type="text" class="form-label" name="submitdate" disabled value="'.$datePicker.'"  id="submitdate"  readonly />
     </div>
   </div>
   
@@ -64,7 +65,7 @@ echo '  <form class="form-horizontal" id ="signupForm1" action="fees.php" method
    <div class="form-group">
     <label class="control-label col-sm-2" for="email">Observación:</label>
     <div class="col-sm-10">
-      <textarea class="form-control" name="transcation_remark" id="transcation_remark"></textarea>
+      <textarea class="form-label" name="transcation_remark" id="transcation_remark"></textarea>
     </div>
   </div>
  
@@ -95,7 +96,7 @@ $("#submitdate").datepicker( {
 
 $( "#signupForm1" ).validate( {
 				rules: {
-					submitdate: "required",
+					
 					
 					paid: {
 						required: true,
@@ -168,12 +169,23 @@ if($fq->num_rows>0)
 {
 
 
- $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.joindate from student as s,branch as b where b.id=s.branch  and s.id='".$sid."'";
+ $sql = "select s.id,s.sname,s.balance,s.fees,s.contact,b.branch,s.emailid,s.about,s.joindate from student as s,branch as b where b.id=s.branch  and s.id='".$sid."'";
 $sq = $conn->query($sql);
 $sr = $sq->fetch_assoc();
 
+echo'
+<div id="logo">
+<img class="insignia" src="logo.png">
+</div>
+<h4 class="empresa"><strong>Asociación De Padres De Familia D.O.C</strong></h4>
+<h4 class="empresa"><strong>Dirección: La Concepción, Bugaba</strong></h4>
+<h4 class="empresa"><strong>Teléfono: 730-0270</strong></h4>
+<h4 class="web"><strong>Web: http://www.sistpagos.com</strong></h4>
+<hr/>
+';
+
 echo '
-<h4>Información del Estudiante</h4>
+<h4>Información del Estudiante:</h4>
 <div class="table-responsive">
 <table class="table table-bordered">
 <tr>
@@ -185,7 +197,12 @@ echo '
 <tr>
 <th>Cedula</th>
 <td>'.$sr['contact'].'</td>
-<th>Fecha de Ingreso</th>
+<th>Correo:</th>
+<td>'.$sr['emailid'].'</td>
+</tr>
+<th>Grupo:</th>
+<td>'.$sr['about'].'</td>
+<th>Fecha de Ingreso:</th>
 <td>'.date("d-m-Y", strtotime($sr['joindate'])).'</td>
 </tr>
 
@@ -196,7 +213,7 @@ echo '
 
 
 echo '
-<h4>Información de Pagos</h4>
+<h4>Información de Pagos:</h4>
 <div class="table-responsive">
 <table class="table table-bordered">
     <thead>
@@ -239,14 +256,17 @@ echo '
 </tr>
 
 <tr>
-<th>A Pagar: 
+<th>Por Pagar: 
 </th>
 <td>'.$sr['balance'].'
 </td>
 </tr>
 </table>
  ';
-
+echo '
+ </br>
+ <h3 class="final">Este documento no es válido sin sello fresco.<h3>
+';
 
  }
 else

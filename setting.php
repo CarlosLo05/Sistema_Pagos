@@ -32,7 +32,7 @@ $error = '<div class="alert alert-danger">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema de Pago Escolar</title>
+    <title>Sistema de Pago </title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="css/bootstrap.css" rel="stylesheet" />
@@ -55,6 +55,10 @@ include("php/header.php");
 ?>
         <div id="page-wrapper">
             <div id="page-inner">
+			<span class="stickers">
+                    <img class="stickerOne" src="img/scotch.png" alt="pegatina">
+                    <img class="stickerTwo" src="img/scotch.png" alt="peagtina">
+                </span>
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-head-line">Configuración</h1>
@@ -138,7 +142,8 @@ echo $error;
     <!-- /. WRAPPER  -->
 
     <div id="footer-sec">
-       Rainbow English Classes | Developed By : <a href="http://www.codexking.com/" target="_blank">Codexking.com</a>
+    <p>&copy;Desarrollo Web Carlos Lo</p>
+        <p>Consultas al Whatsapp <a href="https://api.whatsapp.com/send?phone=+507 64822800&text=Hola%20Carlos%20necesito%20ayuda%20con%20algo%20del%20programa"target=_blank> Carlos Lo</a></p>
     </div>
    
   
